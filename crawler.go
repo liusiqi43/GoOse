@@ -1,6 +1,7 @@
 package goose
 
 import (
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
@@ -153,6 +154,7 @@ func (c *Crawler) assignHTML() error {
 			return err
 		}
 		defer resp.Body.Close()
+		defer io.Copy(ioutil.Discard, resp.Body)
 		contents, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return err
